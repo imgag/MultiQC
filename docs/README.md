@@ -30,6 +30,7 @@ MultiQC Modules:
     pycoQC: modules/pycoqc.md
     SeqyClean: modules/seqyclean.md
     Sickle: modules/sickle.md
+    ReadQC: modules/readqc.md
     Skewer: modules/skewer.md
     SortMeRNA: modules/sortmerna.md
     Trimmomatic: modules/trimmomatic.md
@@ -71,6 +72,7 @@ MultiQC Modules:
     Kaiju: modules/kaiju.md
     Kraken: modules/kraken.md
     MACS2: modules/macs2.md
+    MappingQC: modules/mappingqc.md
     Methyl QA: modules/methylQA.md
     mosdepth: modules/mosdepth.md
     miRTrace: modules/mirtrace.md
@@ -101,6 +103,11 @@ MultiQC Modules:
     Stacks: modules/stacks.md
     THeTA2: modules/theta2.md
     VarScan2: modules/varscan2.md
+    SomaticQC: modules/somaticqc.md
+    Supernova: modules/supernova.md
+    Stacks: modules/stacks.md
+    THeTA2: modules/theta2.md
+    VariantQC: modules/variantqc.md
     VCFTools: modules/vcftools.md
     verifyBAMID: modules/verifybamid.md
 Custom Content:
