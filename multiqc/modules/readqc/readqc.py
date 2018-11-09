@@ -41,13 +41,10 @@ class QcmlMultiqcModule(BaseMultiqcModule):
     def make_description(self, keynames):
         """"Create description string from qcML quality parameter key name."""
         if len(keynames) == 1:
-            desc = "{:s}".format(self.qcml[keynames[0]]['description'],
-                                 self.qcml[keynames[0]]['accession'])
+            desc = "{:s}".format(self.qcml[keynames[0]]['description'])
         else:
             desc = "<ul>" + "".join(
-                ["<li>{:s}</li>".format(self.qcml[key]['description'],
-                                        self.qcml[key]['accession']) for key in
-                 keynames]) + "</ul>"
+                ["<li>{:s}</li>".format(self.qcml[key]['description']) for key in keynames]) + "</ul>"
         return desc
 
     @staticmethod
@@ -57,7 +54,7 @@ class QcmlMultiqcModule(BaseMultiqcModule):
         for k in ks:
             try:
                 od[k] = d[k]
-            except KeyError as e:
+            except KeyError as _:
                 pass
         return od
 
@@ -91,7 +88,7 @@ class MultiqcModule(QcmlMultiqcModule):
         self.qcml.pop('bases sequenced (MB)')
         self.qcml['bases sequenced'] = dict()
         self.qcml['bases sequenced']['description'] = 'Bases sequenced in total.'
-        for s, kv in self.qcdata.items():
+        for _, kv in self.qcdata.items():
             kv['bases sequenced'] = kv['bases sequenced (MB)'] * 1e6
             kv.pop('bases sequenced (MB)')
 
@@ -101,16 +98,18 @@ class MultiqcModule(QcmlMultiqcModule):
             'title': qp_key,
             'description': qp_entry['description'],
         } for qp_key, qp_entry in self.qcml.items()}
-        headers['Q20 read %'].update({'suffix': '%', 'format': '{:,.2f}', 'max': 100})
-        headers['Q30 base %'].update({'suffix': '%', 'format': '{:,.2f}', 'max': 100})
-        headers['gc content %'].update({'suffix': '%', 'format': '{:,.2f}', 'max': 100})
-        headers['no base call %'].update({'suffix': '%', 'format': '{:,.2f}', 'floor': 1})
+        headers['Q20 read %'].update({'suffix': '%', 'format': '{:,.2f}', 'max': 100, 'scale': 'Reds'})
+        headers['Q30 base %'].update({'suffix': '%', 'format': '{:,.2f}', 'max': 100, 'scale': 'Oranges'})
+        headers['gc content %'].update({'suffix': '%', 'format': '{:,.2f}', 'max': 100, 'scale': 'Spectral'})
+        headers['no base call %'].update({'suffix': '%', 'format': '{:,.2f}', 'floor': 1, 'scale': 'BuGn'})
         # headers['bases sequenced (MB)'].update({'suffix': 'Mb', 'format': '{:,.2f}'})
         headers['bases sequenced'].update({'suffix': config.base_count_prefix, 'format': '{:,.2f}',
-                                           'modify': lambda x: x * config.base_count_multiplier})
+                                           'modify': lambda x: x * config.base_count_multiplier,
+                                           'scale': 'Blues'})
         headers['read count'].update({'suffix': config.read_count_prefix, 'format': '{:,.2f}',
-                                      'modify': lambda x: x * config.read_count_multiplier})
-        headers['read length'].update({'suffix': 'bp', 'format': '{:,.0f}'})
+                                      'modify': lambda x: x * config.read_count_multiplier,
+                                           'scale': 'Purples'})
+        headers['read length'].update({'suffix': 'bp', 'format': '{:,.0f}', 'scale': 'Greens'})
 
         # general table: add read count and bases sequenced
         self.general_stats_addcols(self.qcdata,

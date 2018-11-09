@@ -52,27 +52,33 @@ class MultiqcModule(QcmlMultiqcModule):
             'description': qp_entry['description'],
         } for qp_key, qp_entry in self.qcml.items()}
 
-        headers['trimmed base %'].update({'suffix': '%', 'format': '{:,.2f}', 'floor': 1})
-        headers['clipped base %'].update({'suffix': '%', 'format': '{:,.2f}', 'floor': 1})
-        headers['mapped read %'].update({'suffix': '%', 'format': '{:,.2f}', 'max': 100})
-        headers['duplicate read %'].update({'suffix': '%', 'format': '{:,.2f}', 'max': 100})
+        headers['trimmed base %'].update({'suffix': '%', 'format': '{:,.2f}', 'floor': 1, 'scale': 'PuBu'})
+        headers['clipped base %'].update({'suffix': '%', 'format': '{:,.2f}', 'floor': 1, 'scale': 'PuRd'})
+        headers['mapped read %'].update({'suffix': '%', 'format': '{:,.2f}', 'max': 100, 'scale': 'Reds'})
         headers['bases usable'].update({'suffix': config.base_count_prefix, 'format': '{:,.2f}',
-                                        'modify': lambda x: x * config.base_count_multiplier})
+                                        'modify': lambda x: x * config.base_count_multiplier,
+                                        'scale': 'Greens'})
         # always available, even without target file
-        headers['on-target read %'].update({'suffix': '%', 'format': '{:,.2f}', 'max': 100})
+        headers['on-target read %'].update({'suffix': '%', 'format': '{:,.2f}', 'max': 100, 'scale': 'Purples'})
+
+        # only available if duplicates marked
+        try:
+            headers['duplicate read %'].update({'suffix': '%', 'format': '{:,.2f}', 'max': 100, 'scale': 'YlOrRd'})
+        except KeyError as _:
+            pass
 
         # only available if paired-end
         try:
-            headers['properly-paired read %'].update({'suffix': '%', 'format': '{:,.2f}', 'max': 100})
-            headers['insert size'].update({'suffix': 'bp', 'format': '{:,.2f}'})
-        except KeyError as e:
+            headers['properly-paired read %'].update({'suffix': '%', 'format': '{:,.2f}', 'max': 100, 'scale': 'GnBu'})
+            headers['insert size'].update({'suffix': 'bp', 'format': '{:,.2f}', 'scale': 'RdYlGn'})
+        except KeyError as _:
             pass
 
         # only available if human
         try:
             headers['SNV allele frequency deviation'].update(
-                {'suffix': '', 'format': '{:,.2f}', 'floor': 0, 'ceiling': 10, 'minRange': 10})
-        except KeyError as e:
+                {'suffix': '', 'format': '{:,.2f}', 'floor': 0, 'ceiling': 10, 'minRange': 10, 'scale': 'Greys'})
+        except KeyError as _:
             pass
 
         # only available if target file provided
@@ -81,8 +87,8 @@ class MultiqcModule(QcmlMultiqcModule):
             headers['target region read depth'].update({'suffix': 'x', 'format': '{:,.2f}'})
             for x in coverage_values:
                 headers['target region {:d}x %'.format(x)]. \
-                    update({'suffix': '%', 'format': '{:,.2f}', 'max': 100})
-        except KeyError as e:
+                    update({'suffix': '%', 'format': '{:,.2f}', 'max': 100, 'scale': 'YlGn'})
+        except KeyError as _:
             pass
 
         # general table: add read count and bases usable
