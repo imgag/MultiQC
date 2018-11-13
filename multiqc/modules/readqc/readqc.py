@@ -54,7 +54,7 @@ class QcmlMultiqcModule(BaseMultiqcModule):
         for k in ks:
             try:
                 od[k] = d[k]
-            except KeyError as _:
+            except KeyError:
                 pass
         return od
 

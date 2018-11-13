@@ -42,11 +42,11 @@ class MultiqcModule(QcmlMultiqcModule):
             raise UserWarning
 
         # parse somatic variant rate value
-        for s, kv in self.qcdata.items():
+        for _, kv in self.qcdata.items():
             try:
                 kv['somatic variant rate'] = float(
                     re.sub(r'(low|moderate|high) \(([0-9.]+) var/Mb\)', '\2', kv['somatic variant rate']))
-            except ValueError as e:
+            except ValueError:
                 kv.pop('somatic variant rate')
 
         # prepare table headers, use name and description from qcML
@@ -56,28 +56,27 @@ class MultiqcModule(QcmlMultiqcModule):
             'description': qp_entry['description'],
         } for qp_key, qp_entry in self.qcml.items()}
 
-        headers['sample correlation'].update({'format': '{:,.2f}', 'max': 1})
-        headers['variant count'].update({'format': '{:,.0f}', 'title': 'variant count'})
-        headers['somatic variant count'].update({'format': '{:,.0f}'})
-        headers['known somatic variants %'].update({'suffix': '%', 'format': '{:,.2f}', 'max': 100})
-        headers['somatic indel %'].update({'suffix': '%', 'format': '{:,.2f}', 'minRange': 20, 'ceiling': 20})
-        headers['somatic variant rate'].update(
-            {'suffix': 'Variants/Mb', 'format': '{:,.2f}', 'min': 0, 'minRange': 10, 'ceiling': 10})
+        headers['sample correlation'].update({'format': '{:,.2f}', 'max': 1, 'scale': 'BuGn'})
+        headers['variant count'].update({'format': '{:,.0f}', 'title': 'variant count', 'scale': 'Reds'})
+        headers['somatic variant count'].update({'format': '{:,.0f}', 'scale': 'RdPu'})
+        headers['known somatic variants %'].update({'suffix': '%', 'format': '{:,.2f}', 'max': 100, 'scale': 'Oranges'})
+        headers['somatic indel %'].update({'suffix': '%', 'format': '{:,.2f}', 'minRange': 20, 'ceiling': 20, 'scale': 'Purples'})
+        headers['somatic variant rate'].update({'suffix': 'Variants/Mb', 'format': '{:,.2f}', 'min': 0, 'minRange': 10, 'ceiling': 10, 'scale': 'Blues'})
 
         try:
-            headers['somatic transition/transversion ratio'].update({'format': '{:,.2f}', 'minRange': 5, 'ceiling': 5})
-        except KeyError as e:
+            headers['somatic transition/transversion ratio'].update({'format': '{:,.2f}', 'minRange': 5, 'ceiling': 5, 'scale': 'RdYlGn'})
+        except KeyError:
             pass
 
         try:
-            headers['tumor content estimate'].update({'suffix': '%', 'format': '{:,.2f}', 'max': 100})
-        except KeyError as e:
+            headers['tumor content estimate'].update({'suffix': '%', 'format': '{:,.2f}', 'max': 100, 'scale': 'Greens'})
+        except KeyError:
             pass
 
         # rename 'variant count' key to prevent duplicate ID with 'variant count' from VariantQC
-        headers['variant count somaticqc'] = headers.pop('variant count')
-        for s, kv in self.qcdata.items():
-            kv['variant count somaticqc'] = kv.pop('variant count')
+        headers['variant count (SomaticQC)'] = headers.pop('variant count')
+        for _, kv in self.qcdata.items():
+            kv['variant count (SomaticQC)'] = kv.pop('variant count')
 
         # general table: add read count and bases usable
         self.general_stats_addcols(self.qcdata,

@@ -64,21 +64,21 @@ class MultiqcModule(QcmlMultiqcModule):
         # only available if duplicates marked
         try:
             headers['duplicate read %'].update({'suffix': '%', 'format': '{:,.2f}', 'max': 100, 'scale': 'YlOrRd'})
-        except KeyError as _:
+        except KeyError:
             pass
 
         # only available if paired-end
         try:
             headers['properly-paired read %'].update({'suffix': '%', 'format': '{:,.2f}', 'max': 100, 'scale': 'GnBu'})
             headers['insert size'].update({'suffix': 'bp', 'format': '{:,.2f}', 'scale': 'RdYlGn'})
-        except KeyError as _:
+        except KeyError:
             pass
 
         # only available if human
         try:
             headers['SNV allele frequency deviation'].update(
                 {'suffix': '', 'format': '{:,.2f}', 'floor': 0, 'ceiling': 10, 'minRange': 10, 'scale': 'Greys'})
-        except KeyError as _:
+        except KeyError:
             pass
 
         # only available if target file provided
@@ -88,7 +88,7 @@ class MultiqcModule(QcmlMultiqcModule):
             for x in coverage_values:
                 headers['target region {:d}x %'.format(x)]. \
                     update({'suffix': '%', 'format': '{:,.2f}', 'max': 100, 'scale': 'YlGn'})
-        except KeyError as _:
+        except KeyError:
             pass
 
         # general table: add read count and bases usable

@@ -43,13 +43,13 @@ class MultiqcModule(QcmlMultiqcModule):
             'description': qp_entry['description'],
         } for qp_key, qp_entry in self.qcml.items()}
 
-        headers['variant count'].update({'format': '{:,.0f}'})
-        headers['known variants %'].update({'suffix': '%', 'format': '{:,.2f}', 'max': 100})
+        headers['variant count'].update({'format': '{:,.0f}', 'scale': 'Blues'})
+        headers['known variants %'].update({'suffix': '%', 'format': '{:,.2f}', 'max': 100, 'scale': 'YlGnBu'})
         headers['high-impact variants %'].update(
-            {'suffix': '%', 'format': '{:,.2f}', 'min': 0, 'minRange': 10, 'ceiling': 10})
-        headers['homozygous variants %'].update({'suffix': '%', 'format': '{:,.2f}', 'max': 100})
-        headers['indel variants %'].update({'suffix': '%', 'format': '{:,.2f}', 'minRange': 20, 'ceiling': 20})
-        headers['transition/transversion ratio'].update({'format': '{:,.2f}', 'minRange': 5, 'ceiling': 5})
+            {'suffix': '%', 'format': '{:,.2f}', 'min': 0, 'minRange': 10, 'ceiling': 10, 'scale': 'Reds'})
+        headers['homozygous variants %'].update({'suffix': '%', 'format': '{:,.2f}', 'max': 100, 'scale': 'Purples'})
+        headers['indel variants %'].update({'suffix': '%', 'format': '{:,.2f}', 'minRange': 20, 'ceiling': 20, 'scale': 'PuRd'})
+        headers['transition/transversion ratio'].update({'format': '{:,.2f}', 'minRange': 5, 'ceiling': 5, 'scale': 'RdBu'})
 
         # general table: add read count and bases usable
         self.general_stats_addcols(self.qcdata,
