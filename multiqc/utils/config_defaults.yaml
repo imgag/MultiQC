@@ -197,6 +197,7 @@ fn_clean_exts:
     - '.selfSM'
     - '.extendedFrags'
     - '_SummaryStatistics'
+    - '.qcML'
 
 # These are removed after the above, only if sample names
 # start or end with this string. Again, removed in order.
@@ -223,10 +224,10 @@ fn_clean_trim:
     - '_matrix'
     - '.stats'
     - '.hist'
-    - '_stats_fastq.qcML'
-    - '_stats_map.qcML'
-    - '_stats_vc.qcML'
-    - '_stats_som.qcML'
+    - '_stats_fastq'
+    - '_stats_map'
+    - '_stats_vc'
+    - '_stats_som'
 
 # Files to ignore when indexing files.
 # Grep file match patterns.
