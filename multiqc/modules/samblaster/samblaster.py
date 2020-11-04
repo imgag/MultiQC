@@ -104,7 +104,7 @@ class MultiqcModule(BaseMultiqcModule):
                 data['pct_dups'] = float(match.group(4))
 
         if s_name is None:
-            s_name = f['s_name']
+            s_name = self.clean_s_name(f['root'], os.path.dirname(f['root']))
 
         if len(data) > 0:
             if s_name in self.samblaster_data:
