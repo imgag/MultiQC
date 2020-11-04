@@ -364,6 +364,8 @@ macs2:
 malt:
     contents: 'MaltRun - Aligns sequences using MALT (MEGAN alignment tool)'
     num_lines: 2
+mappingqc:
+    fn: '*_stats_map.qcML'
 methylQA:
     fn: '*.report'
     shared: true
@@ -517,6 +519,8 @@ rockhopper:
     fn: 'summary.txt'
     contents: 'Number of gene-pairs predicted to be part of the same operon'
     max_filesize: 500000
+readqc:
+    fn: '*_stats_fastq.qcML'
 rsem:
     fn: '*.cnt'
 rseqc/bam_stat:
@@ -599,6 +603,8 @@ snpsplit/old:
     num_lines: 2
 snpsplit/new:
     fn: '*SNPsplit_report.yaml'
+somaticqc:
+    fn: '*_stats_som.qcML'
 sortmerna:
     contents: 'Minimal SW score based on E-value'
     shared: true
@@ -649,6 +655,8 @@ varscan2/mpileup2indel:
 varscan2/mpileup2cns:
     contents: 'Only variants will be reported'
     num_lines: 3
+variantqc:
+    fn: '*_stats_vc.qcML'
 vcftools/relatedness2:
     fn: '*.relatedness2'
 vcftools/tstv_by_count:
