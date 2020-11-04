@@ -12,6 +12,9 @@
 * [**GffCompare**]](https://ccb.jhu.edu/software/stringtie/gffcompare.shtml) 
     * GffCompare can annotate and estimate accuracy of one or more GFF files compared with a reference annotation. 
 
+* [**Pychopper**](https://github.com/nanoporetech/pychopper)
+  * Identify, orient and trim full length Nanopore cDNA reads
+
 #### Module updates
 
 * **DRAGEN**
