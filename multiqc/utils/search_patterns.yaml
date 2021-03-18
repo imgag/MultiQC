@@ -368,6 +368,8 @@ macs2:
 malt:
   contents: "MaltRun - Aligns sequences using MALT (MEGAN alignment tool)"
   num_lines: 2
+mappingqc:
+  fn: "*_stats_map.qcML"
 methylQA:
   fn: "*.report"
   shared: true
@@ -639,6 +641,8 @@ snpsplit/old:
   num_lines: 2
 snpsplit/new:
   fn: "*SNPsplit_report.yaml"
+somaticqc:
+  fn: "*_stats_som.qcML"
 sortmerna:
   contents: "Minimal SW score based on E-value"
   shared: true
@@ -680,6 +684,8 @@ tophat:
 trimmomatic:
   contents: "Trimmomatic"
   shared: true
+variantqc:
+  fn: "*_stats_var.qcML"
 varscan2/mpileup2snp:
   contents: "Only SNPs will be reported"
   num_lines: 3
