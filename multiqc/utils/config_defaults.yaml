@@ -691,3 +691,9 @@ module_order:
   - optitype:
       module_tag:
         - DNA
+        - RNA
+        - HLATyping
+  - readqc:
+      module_tag:
+        - RNA
+        - DNA
