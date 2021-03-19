@@ -28,6 +28,9 @@ pandoc_template: null
 read_count_multiplier: 0.000001
 read_count_prefix: "M"
 read_count_desc: "millions"
+cluster_count_multiplier: 0.000001
+cluster_count_prefix: "M"
+cluster_count_desc: "millions"
 long_read_count_multiplier: 0.001
 long_read_count_prefix: "K"
 long_read_count_desc: "thousands"
@@ -687,10 +690,4 @@ module_order:
         - RNA
   - optitype:
       module_tag:
-        - DNA
-        - RNA
-        - HLATyping
-  - readqc:
-      module_tag:
-        - RNA
         - DNA

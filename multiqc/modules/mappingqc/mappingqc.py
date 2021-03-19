@@ -28,7 +28,7 @@ class MultiqcModule(QcmlMultiqcModule):
         for f in self.find_log_files('mappingqc', filecontents=True, filehandles=False):
             self.add_data_source(f)
             s_name = self.clean_s_name(f['s_name'], f['root'])
-            self.qcdata[s_name] = self.parse_qcml(f['f'])
+            self.qcdata[s_name] = self.parse_qcml_by(f['f'], "qualityParameter")
 
         # ignore samples if requested
         self.qcdata = self.ignore_samples(self.qcdata)
