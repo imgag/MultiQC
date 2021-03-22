@@ -24,7 +24,7 @@ class MultiqcModule(BaseMultiqcModule):
             name="STAR",
             anchor="star",
             href="https://github.com/alexdobin/STAR",
-            info="is an ultrafast universal RNA-seq aligner.",
+            info="software package enables highly accurate and ultra-fast alignment of RNA-seq reads to a reference genome.",
         )
 
         # Find and load any STAR reports

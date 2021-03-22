@@ -28,11 +28,11 @@ def parse_reports(self):
         "5_utr_exons": r"5'UTR_Exons\s+(\d+)\s+(\d+)\s+([\d\.]+)\s*",
         "3_utr_exons": r"3'UTR_Exons\s+(\d+)\s+(\d+)\s+([\d\.]+)\s*",
         "introns": r"Introns\s+(\d+)\s+(\d+)\s+([\d\.]+)\s*",
-        "tss_up_1kb": r"TSS_up_1kb\s+(\d+)\s+(\d+)\s+([\d\.]+)\s*",
-        "tss_up_5kb": r"TSS_up_5kb\s+(\d+)\s+(\d+)\s+([\d\.]+)\s*",
+        #"tss_up_1kb": r"TSS_up_1kb\s+(\d+)\s+(\d+)\s+([\d\.]+)\s*",
+        #"tss_up_5kb": r"TSS_up_5kb\s+(\d+)\s+(\d+)\s+([\d\.]+)\s*",
         "tss_up_10kb": r"TSS_up_10kb\s+(\d+)\s+(\d+)\s+([\d\.]+)\s*",
-        "tes_down_1kb": r"TES_down_1kb\s+(\d+)\s+(\d+)\s+([\d\.]+)\s*",
-        "tes_down_5kb": r"TES_down_5kb\s+(\d+)\s+(\d+)\s+([\d\.]+)\s*",
+        #"tes_down_1kb": r"TES_down_1kb\s+(\d+)\s+(\d+)\s+([\d\.]+)\s*",
+        #"tes_down_5kb": r"TES_down_5kb\s+(\d+)\s+(\d+)\s+([\d\.]+)\s*",
         "tes_down_10kb": r"TES_down_10kb\s+(\d+)\s+(\d+)\s+([\d\.]+)\s*",
     }
 
@@ -82,11 +82,11 @@ def parse_reports(self):
         keys["5_utr_exons_tag_count"] = {"name": "5'UTR_Exons"}
         keys["3_utr_exons_tag_count"] = {"name": "3'UTR_Exons"}
         keys["introns_tag_count"] = {"name": "Introns"}
-        keys["tss_up_1kb_tag_count"] = {"name": "TSS_up_1kb"}
-        keys["tss_up_5kb_tag_count"] = {"name": "TSS_up_5kb"}
+        #keys["tss_up_1kb_tag_count"] = {"name": "TSS_up_1kb"}
+        #keys["tss_up_5kb_tag_count"] = {"name": "TSS_up_5kb"}
         keys["tss_up_10kb_tag_count"] = {"name": "TSS_up_10kb"}
-        keys["tes_down_1kb_tag_count"] = {"name": "TES_down_1kb"}
-        keys["tes_down_5kb_tag_count"] = {"name": "TES_down_5kb"}
+        #keys["tes_down_1kb_tag_count"] = {"name": "TES_down_1kb"}
+        #keys["tes_down_5kb_tag_count"] = {"name": "TES_down_5kb"}
         keys["tes_down_10kb_tag_count"] = {"name": "TES_down_10kb"}
         keys["other_intergenic_tag_count"] = {"name": "Other_intergenic"}
 

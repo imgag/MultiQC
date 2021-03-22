@@ -63,10 +63,9 @@ def parse_reports(self):
         self.add_section(
             name="Inner Distance",
             anchor="rseqc-inner_distance",
-            description='<a href="http://rseqc.sourceforge.net/#inner-distance-py" target="_blank">Inner Distance</a>'
-            " calculates the inner distance"
-            " (or insert size) between two paired RNA reads."
-            " Note that this can be negative if fragments overlap.",
+            description='<p><a href="http://rseqc.sourceforge.net/#inner-distance-py" target="_blank">Inner Distance</a>'
+            " is used to calculate the inner distance (or insert size) between two paired RNA"
+            " reads. The distance is the mRNA length between two paired fragments.",
             plot=linegraph.plot([self.inner_distance, self.inner_distance_pct], pconfig),
         )
 
