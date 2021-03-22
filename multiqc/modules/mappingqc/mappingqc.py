@@ -13,7 +13,13 @@ log = logging.getLogger(__name__)
 
 
 class MultiqcModule(QcmlMultiqcModule):
+    light_mode_columns = ('mapped read %',
+                          'properly-paired read %',
+                          'duplicate read %',
+                          'insert size',
+                          'SNV allele frequency deviation')
 
+    advanced_mode_columns = ('bases usable', 'on-target read %', 'trimmed base %', 'clipped base %')
     def __init__(self):
         super(MultiqcModule, self).__init__(name='MappingQC',
                                             anchor='mappingqc',
@@ -81,6 +87,14 @@ class MultiqcModule(QcmlMultiqcModule):
         except KeyError:
             pass
 
+        # hide advanced mode columns if the mode is light
+        show_columns = self.light_mode_columns + self.advanced_mode_columns
+        if  self.is_report_type_light():
+            show_columns = self.light_mode_columns
+
+        # hide exom/genom columns
+        self.hide_column_by(headers, 'SNV allele frequency deviation', self.is_data_type_rna_seq())
+
         # only available if target file provided
         coverage_values = (10, 20, 30, 50, 100, 200, 500)
         try:
@@ -108,39 +122,30 @@ class MultiqcModule(QcmlMultiqcModule):
             anchor='mappingqc-general',
             description='',
             plot=table.plot(self.qcdata,
-                            self.dict_ordered_subset(headers, (
-                                'bases usable',
-                                'on-target read %',
-                                'mapped read %',
-                                'properly-paired read %',
-                                'trimmed base %',
-                                'clipped base %',
-                                'duplicate read %',
-                                'insert size',
-                                'SNV allele frequency deviation'
-                            )),
+                            self.dict_ordered_subset(headers,show_columns),
                             pconfig={'namespace': 'MappingQC'})
         )
 
         if 'target region 10x %' in headers.keys():
             # table with coverage values
-            self.add_section(
-                name='Coverage',
-                anchor='mappingqc-coverage',
-                description='',
-                plot=table.plot(self.qcdata,
-                                self.dict_ordered_subset(headers, (
-                                    'target region read depth',
-                                    'target region 10x %',
-                                    'target region 20x %',
-                                    'target region 30x %',
-                                    'target region 50x %',
-                                    'target region 100x %',
-                                    'target region 200x %',
-                                    'target region 500x %'
-                                )),
-                                pconfig={'namespace': 'MappingQC'})
-            )
+            if not self.is_data_type_rna_seq():
+                self.add_section(
+                    name='Coverage',
+                    anchor='mappingqc-coverage',
+                    description='',
+                    plot=table.plot(self.qcdata,
+                                    self.dict_ordered_subset(headers, (
+                                        'target region read depth',
+                                        'target region 10x %',
+                                        'target region 20x %',
+                                        'target region 30x %',
+                                        'target region 50x %',
+                                        'target region 100x %',
+                                        'target region 200x %',
+                                        'target region 500x %'
+                                    )),
+                                    pconfig={'namespace': 'MappingQC'})
+                )
 
             # bar plot with sequencing depth values
             self.add_section(
@@ -187,3 +192,26 @@ class MultiqcModule(QcmlMultiqcModule):
                     }
                 )
             )
+        log.info("Found {} reports".format(len(self.qcdata)))
+
+    def hide_column_by(self, headers, name, hide):
+        try:
+            headers[name].update({'hidden': hide})
+        except KeyError:
+            pass
+
+    # default report type is advanced
+    def is_report_type_light(self):
+        try:
+            return config.light_report
+        except AttributeError:
+            pass
+        return False
+
+    # default seq type is exom/genom
+    def is_data_type_rna_seq(self):
+        try:
+            return config.rna_seq
+        except AttributeError:
+            pass
+        return False
