@@ -126,10 +126,9 @@ class MultiqcModule(QcmlMultiqcModule):
                             pconfig={'namespace': 'MappingQC'})
         )
 
-        if 'target region 10x %' in headers.keys():
-            # table with coverage values
-            if not self.is_data_type_rna_seq():
-                self.add_section(
+        # table with coverage values
+        if not self.is_data_type_rna_seq():
+            self.add_section(
                     name='Coverage',
                     anchor='mappingqc-coverage',
                     description='',
@@ -145,10 +144,10 @@ class MultiqcModule(QcmlMultiqcModule):
                                         'target region 500x %'
                                     )),
                                     pconfig={'namespace': 'MappingQC'})
-                )
+            )
 
-            # bar plot with sequencing depth values
-            self.add_section(
+        # bar plot with sequencing depth values
+        self.add_section(
                 name='Sequencing Depth',
                 anchor='mappingqc-read-depth',
                 description=self.make_description(['target region read depth']),
@@ -166,8 +165,9 @@ class MultiqcModule(QcmlMultiqcModule):
                         'tt_percentages': False
                     }
                 )
-            )
+        )
 
+        if 'target region 10x %' in headers.keys():
             # bar plot with coverage values
             self.add_section(
                 name='Target Coverage',
