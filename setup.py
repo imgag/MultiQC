@@ -24,7 +24,7 @@ MultiQC was written by Phil Ewels (http://phil.ewels.co.uk) at SciLifeLab Sweden
 from setuptools import setup, find_packages
 import sys
 
-version = "1.10"
+version = "1.10.1"
 dl_version = "master" if "dev" in version else "v{}".format(version)
 
 print(
@@ -63,7 +63,7 @@ install_requires = [
     "markdown" + markdown_version,
     "pyyaml>=4",
     "requests",
-    "rich",
+    "rich>=9.4.0",
     "simplejson",
     "spectra>=0.0.10",
 ]
@@ -218,7 +218,7 @@ setup(
         #       ]
     },
     classifiers=[
-        "Development Status :: 4 - Beta",
+        "Development Status :: 5 - Production/Stable",
         "Environment :: Console",
         "Environment :: Web Environment",
         "Intended Audience :: Science/Research",

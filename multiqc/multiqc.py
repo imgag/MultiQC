@@ -203,11 +203,24 @@ def run_cli(
     no_ansi,
     **kwargs,
 ):
+    # Main MultiQC run command for use with the click command line, complete with all click function decorators.
+    # To make it easy to use MultiQC within notebooks and other locations that don't need click, we simply pass the
+    # parsed variables on to a vanilla python function.
+
+    """MultiQC aggregates results from bioinformatics analyses across many samples into a single report.
+
+    It searches a given directory for analysis logs and compiles a HTML report.
+    It's a general use tool, perfect for summarising the output from numerous
+    bioinformatics tools.
+
+    To run, supply with one or more directory to scan for analysis results.
+    To run here, use 'multiqc .'
+
+    See http://multiqc.info for more details.
+
+    Author: Phil Ewels (http://phil.ewels.co.uk)
     """
-    Main MultiQC run command for use with the click command line, complete with all click function decorators.
-    To make it easy to use MultiQC within notebooks and other locations that don't need click, we simply pass the
-    parsed variables on to a vanilla python function.
-    """
+
     # Use keyword arguments in case things get rearranged in the future
     multiqc_run = run(
         analysis_dir=analysis_dir,
@@ -413,12 +426,12 @@ def run(
 
     # Throw a warning if we are running on Python 2
     if sys.version_info[0] < 3:
-        logger.warning(
+        logger.error(
             "You are running MultiQC with Python {}.{}.{}".format(
                 sys.version_info[0], sys.version_info[1], sys.version_info[2]
             )
         )
-        logger.warning("Please upgrade! MultiQC no longer officially supports Python < 3.6")
+        logger.critical("Please upgrade Python! MultiQC does not support Python < 3.6, things will break.")
     else:
         logger.debug("Running Python {}".format(sys.version.replace("\n", " ")))
 
@@ -574,6 +587,8 @@ def run(
         try:
             this_module = list(mod_dict.keys())[0]
             mod_cust_config = list(mod_dict.values())[0]
+            if mod_cust_config is None:
+                mod_cust_config = {}
             mod = config.avail_modules[this_module].load()
             mod.mod_cust_config = mod_cust_config  # feels bad doing this, but seems to work
             output = mod()
@@ -718,7 +733,7 @@ def run(
                 "mqc-generalstats-{}-{}".format(ns_html, h[k]["rid"])
             )
     # Generate the General Statistics HTML & write to file
-    if len(report.general_stats_data) > 0:
+    if len(report.general_stats_data) > 0 and not config.skip_generalstats:
         pconfig = {
             "id": "general_stats_table",
             "table_title": "General Statistics",
